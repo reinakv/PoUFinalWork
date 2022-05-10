@@ -1,0 +1,137 @@
+---
+title: "Final Work"
+author: "Annie Vaithara"
+date: "5/10/2022"
+output: 
+  html_document:
+    theme: spacelab
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+    code_folding: hide
+    code_download: TRUE
+    df_print: paged 
+
+abstract: feveve
+---
+
+# Introduction
+This RMarkdown file is for the data visualization of child marriage during Covid-19. Child Marriage is one of the unseen issues of the pandemic, an issue that was brushed under the rug and not much spoken of. The startling fact remains that despite the reforms and the improvement that multiple activists and NGOs had made over the time was all washed away when the pandemic hit the country. Multitudes of factors played a role in the sharp increase of child marriage.
+
+This code illustrates the data of the number of girls who got married before the 18 according the NFHS survey. The data was extracted from the state-wise National Family Health Survey 2019-21.
+
+# Aim
+
+Write later
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(scales)
+```
+
+```{r dataset}
+Fem <- read_excel("NFHS_Fem.xls")
+Mal <- read_excel("NFHS_Mal.xls")
+```
+
+## The NHFS Dataset
+
+
+This is a glimpse into the Data Set of females
+
+```{r intro to Fem}
+head(Fem)
+tail(Fem)
+```
+This is a glimpse into the male part of the dataset
+
+```{r intro to Mal}
+head(Mal)
+tail(Mal)
+```
+
+```{r}
+Fem <- Fem %>% drop_na()
+Mal <- Mal %>% drop_na()
+```
+
+
+### Description of the Dataset
+The dataset has been divided into three parts, the rural, the urban and the average of the both. All of the numerical are in percentages in respective to the population of the state. In case of the NA factor, it is shows that either the percentage was too small to be noted or there was no data collected.  
+The total data set has 35 rows (States and UTs included) and 4 columns.
+
+- The state column is foe namesake as it includes the Union Territories as well, but to make the data more readable and easier to code with.
+- The Urban and Rural column are the percentage of people married before the age of 18 in case of females and 21 in case of males, area wise.
+- Lastly, the Total dataset is the average of the Rural and the Urban percentages.
+
+
+### More about the Dataset
+
+The National Family Health Survey (NFHS) is a large-scale, multi-round survey conducted in a representative sample of households throughout India. Five rounds of the survey have been conducted since the first survey in 1992-93.  
+The National Family Health Survey 2019-20 (NFHS-5), the fifth in the NFHS series, provides information on population, health, and nutrition for India and each state/union territory (UT).
+
+# Graphs
+
+## Idk what I am doing help
+
+```{r}
+ggplot() + 
+  geom_density(data = Fem,
+               aes(x = Total),
+               color = "green") + 
+  geom_density(data = Mal,
+               aes(x = Total))+
+  labs(title = "Average")
+```
+
+
+
+```{r}
+ggplot()+
+  geom_point(data = Mal,
+             aes(x = Rural,
+                 y = Urban),
+             color = "blue") + 
+  geom_point(data = Fem,
+             aes(x = Rural,
+                 y = Urban),
+             colour = "green")
+```
+
+```{r}
+Fem %>% 
+   ggplot(data = .) + 
+  geom_segment(aes(y = Total,
+                   x = State, 
+                   xend = Urban, 
+                   yend = Rural))
+```
+
+
+```{r}
+ggplot()+
+  geom_line(data = Mal,
+             aes(x = Rural,
+                 y = Total)) + 
+  geom_line(data = Fem,
+             aes(x = Rural,
+                 y = Total),
+             colour = "green")
+```
+
+```{r}
+ggplot()+
+  geom_line(data = Mal,
+             aes(x = Urban,
+                 y = Total)) + 
+  geom_line(data = Fem,
+             aes(x = Urban,
+                 y = Total),
+             colour = "green")
+
